@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.FitnessTracking.Model.User;
 import de.FitnessTracking.Repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
@@ -19,16 +20,19 @@ public class MainController {
   private UserRepository userRepository;
 
   @PostMapping(path="/add") // Map ONLY POST Requests
-  public @ResponseBody String addNewUser (@RequestParam String name
-      , @RequestParam String email) {
+  public @ResponseBody User addNewUser (@RequestParam String name
+      , @RequestParam String email, @RequestParam String password, HttpServletRequest request) {
     // @ResponseBody means the returned String is the response, not a view name
     // @RequestParam means it is a parameter from the GET or POST request
 
-    User n = new User();
-    n.setName(name);
-    n.setEmail(email);
-    userRepository.save(n);
-    return "Saved";
+    User user = new User();
+    user.setName(name);
+    user.setEmail(email);
+    user.setPassword(password);
+    
+    new ResponseEntity<>(RestModel, HttpStatus.OK);
+    
+    return userRepository.save(user);
   }
 
   @GetMapping(path="/all")

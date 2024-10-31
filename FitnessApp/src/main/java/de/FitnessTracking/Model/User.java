@@ -9,20 +9,15 @@ import jakarta.persistence.Id;
 public class User {
 
   @Id
-  @GeneratedValue(strategy=GenerationType.AUTO)
-  private Integer id;
-
-  private String name;
-
+  @GeneratedValue
+  private Long id;
+  
   private String email;
-
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
+  
+  private String name;
+  
+  private String password;
+  
 
   public String getName() {
     return name;
@@ -39,5 +34,24 @@ public class User {
   public void setEmail(String email) {
     this.email = email;
   }
+
+public String getPassword() {
+	return password;
+}
+
+public void setPassword(String password) {
+	this.password = password;
+}
+
+public Long getId() {
+	return id;
+}
+
+public void setId(Long id) {
+	this.id = id;
+}
+ 
+
+
 }
 
