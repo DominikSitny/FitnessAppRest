@@ -30,8 +30,6 @@ public class MainController {
     user.setEmail(email);
     user.setPassword(password);
     
-    new ResponseEntity<>(RestModel, HttpStatus.OK);
-    
     return userRepository.save(user);
   }
 
