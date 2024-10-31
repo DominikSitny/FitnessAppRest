@@ -9,6 +9,6 @@ public class ExerciseModel {
 	private String name;
 	private String infoPerform;
 	private List<MuscleModel> usedMuscels;
-	
-	
+
+
 }

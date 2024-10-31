@@ -4,8 +4,8 @@ import java.util.List;
 
 public class MuscleAreaModel extends MuscleModel{
 
-	List<MuscleModel> kindsList; 
-	
+	List<MuscleModel> kindsList;
+
 	@Override
 	public List<MuscleModel> getKinds() {
 		// TODO Auto-generated method stub
@@ -18,5 +18,5 @@ public class MuscleAreaModel extends MuscleModel{
 	public void remoteKind(MuscleModel muscle) {
 		this.kindsList.remove(muscle);
 	}
-	
+
 }
