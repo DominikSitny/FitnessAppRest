@@ -1,5 +1,6 @@
 package de.FitnessTracking.Model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,10 +13,14 @@ public class User {
   @GeneratedValue
   private Long id;
   
+
+  @Column(nullable = false)
   private String email;
   
+  @Column(nullable = false)
   private String name;
   
+  @Column(nullable = false)
   private String password;
   
 
@@ -51,6 +56,9 @@ public void setId(Long id) {
 	this.id = id;
 }
  
+public String toString(){
+	return "id:" + this.id + ",email:" + this.email + ",name:"+this.name+",password:"+this.password+";"; 
+}
 
 
 }

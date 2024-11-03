@@ -11,4 +11,7 @@ public class FitnessAppApplication {
 		SpringApplication.run(FitnessAppApplication.class, args);
 	}
 
+	//Für Exceptions
+	//https://www.bezkoder.com/spring-boot-restcontrolleradvice/
+	
 }
