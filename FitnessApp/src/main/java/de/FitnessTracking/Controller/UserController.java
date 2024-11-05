@@ -37,7 +37,7 @@ public class UserController {
 		
 		if(user.getEmail().equalsIgnoreCase("")) {
 			user.setEmail(null);
-			return new CustomRestExceptionHandler().handleNullPointerException(new Exception("The mail is null."), webRequest);
+			return new CustomRestExceptionHandler().handleNullPointerException(new Exception("The mail is null"), webRequest);
 		}
 		
 		if (userRepository.findByEmail(user.getEmail()) != null) {
