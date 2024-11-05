@@ -1,5 +1,7 @@
 package de.FitnessTracking.Controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 
-import de.FitnessTracking.Exception.ControllerExceptionHandler;
-import de.FitnessTracking.Exception.ResourceNotFoundException;
+import de.FitnessTracking.Exception.CustomRestExceptionHandler;
 import de.FitnessTracking.Model.User;
 import de.FitnessTracking.Repository.UserRepository;
 
@@ -33,10 +34,15 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/add") // Map ONLY POST Request
-	public ResponseEntity<User> addNewUser (@RequestBody User user, WebRequest webRequest){
+	public ResponseEntity<Object> addNewUser (@RequestBody User user, WebRequest webRequest) throws Exception{
 	    // @ResponseBody means the returned String is the response, not a view name
 	    // @RequestParam means it is a parameter from the GET or POST request
 	    
+        if (userRepository.findByEmail(user.getEmail())) {
+        	return new CustomRestExceptionHandler().handleAll(new Exception(), webRequest);
+            }
+		
+		
 		if(user.getEmail().equalsIgnoreCase("")) {
 			user.setEmail(null);
 		}
@@ -49,15 +55,9 @@ public class UserController {
 		
 		User userNew = new User();
 		user.setId(userNew.getId());	
-		
-		try {
-			userRepository.save(user);
-			return new ResponseEntity<>(user, HttpStatus.CREATED);
-		}
-		catch(Exception e) {
-			  new ControllerExceptionHandler().globalExceptionHandler(e, webRequest);
-			  return new ResponseEntity<>( null , HttpStatus.CREATED);
-		}
+
+		userRepository.save(user);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	 }
 	
 	
