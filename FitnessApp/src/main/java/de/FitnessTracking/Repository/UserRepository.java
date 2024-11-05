@@ -6,6 +6,6 @@ import de.FitnessTracking.Model.User;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 	
-	boolean findByEmail(String email); 
+	User findByEmail(String email); 
 
 }

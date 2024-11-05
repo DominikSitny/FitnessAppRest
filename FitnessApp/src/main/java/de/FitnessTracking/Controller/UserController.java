@@ -1,7 +1,5 @@
 package de.FitnessTracking.Controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.server.ResponseStatusException;
 
 import de.FitnessTracking.Exception.CustomRestExceptionHandler;
 import de.FitnessTracking.Model.User;
@@ -34,28 +31,30 @@ public class UserController {
 	}
 	
 	@PostMapping(path="/add") // Map ONLY POST Request
-	public ResponseEntity<Object> addNewUser (@RequestBody User user, WebRequest webRequest) throws Exception{
+	public ResponseEntity<Object> addNewUser (@RequestBody User user, WebRequest webRequest){
 	    // @ResponseBody means the returned String is the response, not a view name
-	    // @RequestParam means it is a parameter from the GET or POST request
-	    
-        if (userRepository.findByEmail(user.getEmail())) {
-        	return new CustomRestExceptionHandler().handleAll(new Exception(), webRequest);
-            }
-		
+	    // @RequestParam means it is a parameter from the GET or POST request       
 		
 		if(user.getEmail().equalsIgnoreCase("")) {
 			user.setEmail(null);
+			return new CustomRestExceptionHandler().handleNullPointerException(new Exception("The mail is null"), webRequest);
 		}
+		
+		if (userRepository.findByEmail(user.getEmail()) != null) {
+        	return new CustomRestExceptionHandler().handleDataIntegrityViolation(new Exception("The mail exist"), webRequest);
+        }
+        
 		if(user.getName().equalsIgnoreCase("")) {
 			user.setName(null);
+			return new CustomRestExceptionHandler().handleNullPointerException(new Exception("The name is null"), webRequest);
 		}
 		if(user.getPassword().equalsIgnoreCase("")) {
 			user.setPassword(null);
+			return new CustomRestExceptionHandler().handleNullPointerException(new Exception("The password is null"), webRequest);
 		}
 		
 		User userNew = new User();
-		user.setId(userNew.getId());	
-
+		user.setId(userNew.getId());
 		userRepository.save(user);
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	 }
