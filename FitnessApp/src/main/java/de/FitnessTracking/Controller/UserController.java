@@ -3,6 +3,7 @@ package de.FitnessTracking.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,9 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	 @Autowired
+	 PasswordEncoder passwordEncoder;
 	
 	@GetMapping(path="/all")
 	public @ResponseBody Iterable<User> getAllUsers() {
@@ -55,9 +59,18 @@ public class UserController {
 		
 		User userNew = new User();
 		user.setId(userNew.getId());
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	 }
+	
+	@PostMapping(path="/login")
+	public ResponseEntity<Object> login (@RequestBody User user, WebRequest webRequest){
+
+		
+
+		return new ResponseEntity<>(user, HttpStatus.CREATED);
+	}
 	
 	
 	
