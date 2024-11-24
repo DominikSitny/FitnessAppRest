@@ -60,6 +60,7 @@ public class UserController {
 		User userNew = new User();
 		user.setId(userNew.getId());
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		System.out.println(user.getPassword());
 		userRepository.save(user);
 		return new ResponseEntity<>(user, HttpStatus.CREATED);
 	 }
